@@ -1,0 +1,25 @@
+#Ubuntu
+ulimit -n 100000
+cd /tmp
+mkdir wmic
+cd wmic
+
+apt install autoconf gcc libdatetime-perl make build-essential g++ python-dev
+wget http://www.opsview.com/sites/default/files/wmi-1.3.16.tar_.bz2
+bunzip2 wmi-1.3.16.tar_.bz2
+tar -xvf wmi-1.3.16.tar_
+cd wmi-1.3.16/
+
+vim Samba/source/pidl/pidl
+:583 (to jump to line 583)
+remove the word defined before @$pidl
+:wq 
+
+export ZENHOME=/usr
+make "CPP=gcc -E -ffreestanding"
+cp Samba/source/bin/wmic /bin
+
+#Centos
+wget ftp://rpmfind.net/linux/sourceforge/p/pa/pandora/Tools%20and%20dependencies%20(All%20versions)/RPM%20SUSE/wmic-4.0.0tp4-.x86_64.rpm
+
+rpm -ivh wmic-4.0.0tp4-.x86_64.rpm
