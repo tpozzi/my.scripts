@@ -1,0 +1,16 @@
+#!/bin/bash
+#nessus_offline_plugin_update.bsh
+#This script do the manual update on Nessus Scan
+NChallenge=$(/opt/nessus/sbin/nessuscli fetch --challenge | grep "Challenge" | awk '{print $3}') #Variable witch gets the challenge number from the Nessus Scan.
+NActivation_code="xxxxxx" #Enter your activation code here. (Variable that contain the Nessus Scan activation code)
+Download=$(curl --data "challenge=$NChallenge&activation_code=$NActivation_code&submit=Submit" https://plugins.nessus.org/offline.php | grep *.tar.gz | tail -n1 | sed -E 's/\ /''/g') #Get the Link to download the last plugin update and insert in the Download variable.
+NFile=$(echo $Download | awk -F= '{print $2}' | awk -F\& '{print $1}' #Get the name of the file from the Download Link
+wget "$Download" -O $NFile #Download the Last Plugin Update.
+systemctl stop nessusd #Stop Nessus Scan Service.
+Yes | /opt/nessus/sbin/nessuscli fix --reset #Reset Nessus Scan configuration.
+/opt/nessus/sbin/nessuscli fetch --security-center #Set NessusSeccrityCenter as the update server.
+/opt/nessus/sbin/nessuscli update ./$NFile #Update Plugins with the downloaded file.
+systemctl start nessusd #Start Nessus Scan Service.
+ip=$(curl ipecho.net/plain) #Get Public IP.
+port=$(cat /opt/nessus/etc/nessus/nessusd.conf.imported | grep xmlrpc_listen_port | awk '{print $3}') #Get Port of nessus. 
+echo "Go to https://$ip:$port to fisnih the configuration" #Show the link to access to check the updated plugins.
