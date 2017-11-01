@@ -1,5 +1,10 @@
 #!/bin/bash
 #Script test
-echo "OK deu certo"
+
 se=$(sestatus | awk '{print $3}')
-echo $se
+if [ $se != "disabled" ]
+then
+	$(sed -i 's/SELINUX=enforcing/SELINUX=disabled/g') /etc/selinux/config
+else
+  echo "OK deu certo"
+fi
