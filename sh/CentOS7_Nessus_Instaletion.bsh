@@ -9,7 +9,7 @@ else
 	mkdir /scripts/downloads -p
 	mkdir /scripts/bash -p
 	downloads="/scripts/downloads"
-	sbash= "/scripts/bash"
+	sbash="/scripts/bash"
 	yum install wget vim epel* -y
 	yum update -y
 	wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.2-es7.x86_64.rpm&licence_accept=yes&t=84ed6ee87f926f3d17a218b2e52b61f0" -O $downloads/Nessus-6.11.2-es7.x86_64.rpm
