@@ -4,7 +4,7 @@
 se=$(sestatus | awk '{print $3}')
 if [ $se != "disabled" ]
 then
-	$(sed -i 's/SELINUX=enforcing/SELINUX=disabled/g') /etc/selinux/config
+	$(sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config)
 else
   echo "OK deu certo"
 fi
