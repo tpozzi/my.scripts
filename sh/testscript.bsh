@@ -1,7 +1,7 @@
 #!/bin/bash
 #Script test
-
-se=$(sestatus | awk '{print $3}')
+#se=$(sestatus | awk '{print $3}')
+se=$(cat /etc/selinux/config | grep ^SELINUX= | awk -F= '{print $2}')
 if [ $se != "disabled" ]
 then
 	$(sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config)
