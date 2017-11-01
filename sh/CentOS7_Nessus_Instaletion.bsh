@@ -1,9 +1,48 @@
 #!/bin/bash
 # Script to install Nessus on Centos.
-yum update -y ; yum install wget vim epel* -y
-mkdir /scripts/downloads -p
-mkdir /scripts/bash -p
-downloads="/scripts/downloads"
-sbash= "/scripts/bash"
-wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.2-es7.x86_64.rpm&licence_accept=yes&t=84ed6ee87f926f3d17a218b2e52b61f0" -O $downloads/Nessus-6.11.2-es7.x86_64.rpm
-yum install $downloads/Nessus-6.11.2-es7.x86_64.rpm -y
+se=$(cat /etc/selinux/config | grep ^SELINUX= | awk -F= '{print $2}')
+if [ $se != "disabled" ]
+then
+	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+	reboot
+else
+	mkdir /scripts/downloads -p
+	mkdir /scripts/bash -p
+	downloads="/scripts/downloads"
+	sbash= "/scripts/bash"
+	yum install wget vim epel* -y
+	yum update -y
+	wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.2-es7.x86_64.rpm&licence_accept=yes&t=84ed6ee87f926f3d17a218b2e52b61f0" -O $downloads/Nessus-6.11.2-es7.x86_64.rpm
+	yum install $downloads/Nessus-6.11.2-es7.x86_64.rpm -y
+	echo "Port 22022
+Protocol 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+SyslogFacility AUTHPRIV
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile      .ssh/authorized_keys
+PasswordAuthentication yes
+ChallengeResponseAuthentication no
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials no
+UsePAM yes
+X11Forwarding yes
+UsePrivilegeSeparation sandbox          # Default for new installations.
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+Subsystem       sftp    /usr/libexec/openssh/sftp-server" > /etc/ssh/sshd_config
+	systemctl disable firewalld
+	systemctl restart sshd
+	systemctl start nessusd
+	mkdir /etc/skel/.ssh
+	touch /etc/skel/.ssh/authorized_keys
+	ip=$(curl ipecho.net/plain)
+	echo "Nessus was installed and configured sucessfully."
+	echo "Please remember to add your RSA key in /home/'your user name'/.ssh/authorized_keys"
+	echo "Continue the Nessus Scan configuration by goin to:"
+	echo "https://$ip:8834"
+fi
