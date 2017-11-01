@@ -1,0 +1,3 @@
+#!/bin/bash
+#Script test
+echo "OK deu certo"
