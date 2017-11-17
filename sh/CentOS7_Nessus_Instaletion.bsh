@@ -12,7 +12,7 @@ else
 	sbash="/scripts/bash"
 	yum install wget vim epel* -y
 	yum update -y
-	curl "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.2-es7.x86_64.rpm&licence_accept=yes&t=c49df1ce22c35b67261dcd6434609e91" -O $downloads/Nessus-6.11.2-es7.x86_64.rpm
+	wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.2-es7.x86_64.rpm&licence_accept=yes&t=c49df1ce22c35b67261dcd6434609e91" -O $downloads/Nessus-6.11.2-es7.x86_64.rpm
 	yum install $downloads/Nessus-6.11.2-es7.x86_64.rpm -y
 	echo "Port 22022
 Protocol 2
