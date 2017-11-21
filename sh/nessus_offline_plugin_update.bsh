@@ -7,7 +7,7 @@ Download=$(curl --data "challenge=$NChallenge&activation_code=$NActivation_code&
 NFile=$(echo $Download | awk -F= '{print $2}' | awk -F\& '{print $1}') #Get the name of the file from the Download Link
 wget "$Download" -O $NFile #Download the Last Plugin Update.
 systemctl stop nessusd #Stop Nessus Scan Service.
-Yes | /opt/nessus/sbin/nessuscli fix --reset #Reset Nessus Scan configuration.
+echo y | /opt/nessus/sbin/nessuscli fix --reset #Reset Nessus Scan configuration.
 /opt/nessus/sbin/nessuscli fetch --security-center #Set NessusSeccrityCenter as the update server.
 /opt/nessus/sbin/nessuscli update ./$NFile #Update Plugins with the downloaded file.
 systemctl start nessusd #Start Nessus Scan Service.
