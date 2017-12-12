@@ -11,3 +11,6 @@ else
     ssh -p 22022 -R 8834:localhost:8834 -R 22022:localhost:22022 -f csolve@66.159.112.130 -i /home/csolve/.ssh/id_rsa -N
   fi
 fi
+
+#*/5 * * * * /ddns/ddnsupdate.sh
+#*/5 * * * * /scripts/callhome.sh
