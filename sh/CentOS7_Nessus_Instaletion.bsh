@@ -12,8 +12,11 @@ else
 	sbash="/scripts/bash"
 	yum install wget vim epel* -y
 	yum update -y
-	wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.3-es7.x86_64.rpm&licence_accept=yes&t=aa297b06bd1eaec863a92b1f17391dba" -O $downloads/Nessus-6.11.3-es7.x86_64.rpm
-	yum install $downloads/Nessus-6.11.3-es7.x86_64.rpm -y
+	URL=XXX
+	File=$(echo $URL | awk -F= '{print $2}' | awk -F\& '{print $1}'
+	#wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.3-es7.x86_64.rpm&licence_accept=yes&t=aa297b06bd1eaec863a92b1f17391dba" -O $downloads/Nessus-6.11.3-es7.x86_64.rpm
+	wget $URL -O $downloads/$File
+	yum install $downloads/$File -y
 	echo "Port 22022
 Protocol 2
 HostKey /etc/ssh/ssh_host_rsa_key
