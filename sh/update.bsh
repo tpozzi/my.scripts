@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+yum update -y |tail -n1 > /scripts/update.txt
+yumupdate="$(cat /scripts/update.txt)"
+if [ 'Bla' != $(echo $yumupdate) ]
+then
+        echo "diferrente"
+else
+        echo "igual"
+fi
