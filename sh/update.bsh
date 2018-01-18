@@ -1,10 +1,8 @@
 #!/bin/bash
 #
-yum update -y |tail -n1 > /scripts/update.txt
-yumupdate="$(cat /scripts/update.txt)"
-if [ 'Bla' != $(echo $yumupdate) ]
+yum update -y | tail -n1 > /scripts/bash/update.txt
+if [ "$(cat /scripts/bash/update.txt)" != "No packages marked for update" ]
 then
-        echo "diferrente"
-else
-        echo "igual"
+        reboot
 fi
+exit
