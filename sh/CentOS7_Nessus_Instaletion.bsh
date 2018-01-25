@@ -13,7 +13,8 @@ else
 	yum install wget vim epel* -y
 	yum update -y
 	URL=XXX
-	File=$(echo $URL | awk -F= '{print $2}' | awk -F\& '{print $1}')
+	#File=$(echo $URL | awk -F= '{print $2}' | awk -F\& '{print $1}')
+	File=$(echo $URL".rpm" | awk -F? '{print $1}' | awk -F\/ '{print $NF}')
 	#wget "https://downloads.nessus.org/nessus3dl.php?file=Nessus-6.11.3-es7.x86_64.rpm&licence_accept=yes&t=aa297b06bd1eaec863a92b1f17391dba" -O $downloads/Nessus-6.11.3-es7.x86_64.rpm
 	wget $URL -O $downloads/$File
 	yum install $downloads/$File -y
