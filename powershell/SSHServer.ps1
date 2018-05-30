@@ -1,10 +1,9 @@
 ##Downloading Powershell SSH server instalator
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri "https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.6.1.0p1-Beta/OpenSSH-Win64.zip" -OutFile "C:\test\OpenSSH-Win64.zip"
-
+Invoke-WebRequest -Uri "https://github.com/PowerShell/Win32-OpenSSH/releases/download/v7.6.1.0p1-Beta/OpenSSH-Win64.zip" -OutFile "C:\OpenSSH-Win64.zip"
 ##Unziping process
 $shell = New-Object -ComObject shell.application
-$zip = $shell.NameSpace("C:\test\OpenSSH-Win64.zip")
+$zip = $shell.NameSpace("C:\OpenSSH-Win64.zip")
 foreach ($item in $zip.items()) {
   $shell.Namespace("$Env:PROGRAMFILES").CopyHere($item)
 }
