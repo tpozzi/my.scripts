@@ -20,6 +20,7 @@ if (Test-Path "C:\Program Files\TacticalAgent\novormm.txt" -PathType Leaf) {
 			Write-Warning "$_ Falha na instalação com o codigo: $($proc.ExitCode)"
 		}
 		Remove-Item -Path "c:\ProgramData\TacticalRMM\temp\trmminstall.exe" -Force
+  		New-Item "C:\Program Files\TacticalAgent\novormm.txt"
 	} else {
 		Write-Warning "Iniciando o Download do RMM"
 		Invoke-WebRequest $rmmuri -OutFile ( New-Item -Path "c:\ProgramData\TacticalRMM\temp\trmminstall.exe" -Force )
@@ -31,5 +32,6 @@ if (Test-Path "C:\Program Files\TacticalAgent\novormm.txt" -PathType Leaf) {
 			Write-Warning "$_ Falha na instalação com o codigo: $($proc.ExitCode)"
 		}
 		Remove-Item -Path "c:\ProgramData\TacticalRMM\temp\trmminstall.exe" -Force
+  		New-Item "C:\Program Files\TacticalAgent\novormm.txt"
 	}
 }
